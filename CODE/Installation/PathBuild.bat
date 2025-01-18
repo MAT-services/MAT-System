@@ -1,17 +1,18 @@
 @echo off
-chcp 65001
+chcp 65001 >nul
 setlocal enabledelayedexpansion
 
 set n=1
 
 :a
 set "filePath=Path%n%.ini"
-if not exist %filePath% goto error
+
+if not exist %filePath% goto finish
 
 <%filePath% set /p InstallPath=
 
 if not exist "%InstallPath%" (
-    md "%InstallPath%"
+    md %InstallPath%
     echo Répertoire créé à : %InstallPath%
 ) else (
     echo Le répertoire %InstallPath% existe déjà.
@@ -20,8 +21,7 @@ if not exist "%InstallPath%" (
 set /a n+=1
 echo n=%n%
 
-goto f
-:error 
-echo FATAL ERROR
-:f
+goto a
+:finish
+echo finish
 pause
